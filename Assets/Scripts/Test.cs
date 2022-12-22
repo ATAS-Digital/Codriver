@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Test : MonoBehaviour {
+public class Test : MonoBehaviour
+{
+    [SerializeField]
     Button btn;
-	// Use this for initialization
-	void Start () {
-        
-        btn = GameObject.Find("Button").GetComponent<Button>();
+    // Use this for initialization
+    void Start()
+    {
+
+        //btn = GameObject.Find("Button").GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
-	}
-	
+    }
+
     void TaskOnClick()
-    {   
+    {
         AndroidJavaClass pluginClass = new AndroidJavaClass("com.plugin.speech.pluginlibrary.TestPlugin");
         Debug.Log("Call 1 Started");
 
@@ -24,7 +27,7 @@ public class Test : MonoBehaviour {
 
 
         // Setting language is optional. If you don't run this line, it will try to figure out language based on device settings
-        pluginClass.CallStatic("setLanguage", "en_US");
+        pluginClass.CallStatic("setLanguage", "ru_RU");
         Debug.Log("Language Set");
 
 
@@ -33,7 +36,7 @@ public class Test : MonoBehaviour {
         Debug.Log("Max Results Set");
 
         // The following line sets the question which appears on intent over the microphone icon
-        pluginClass.CallStatic("changeQuestion", "Hello, How can I help you???");
+        pluginClass.CallStatic("changeQuestion", "Привет! Могу тебе помочь?");
         Debug.Log("Question Set");
 
 
@@ -44,9 +47,4 @@ public class Test : MonoBehaviour {
 
         Debug.Log("Call End");
     }
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
