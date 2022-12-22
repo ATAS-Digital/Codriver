@@ -11,6 +11,15 @@ public class CameraScript : MonoBehaviour
     public void CheckCamera()
     {
         texture = new WebCamTexture();
+
+        //Texture2D photo = new Texture2D(texture.width, texture.height);
+        //photo.SetPixels(texture.GetPixels());
+        //photo.Apply();
+
+        ////Encode to a PNG
+        //byte[] bytes = photo.EncodeToJPG();
+
+
         Debug.Log(texture);
         //GetComponent<Image>().material.color = new Color(255, 0, 0);
         GetComponent<Renderer>().material.mainTexture = texture;
