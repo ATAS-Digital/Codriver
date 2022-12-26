@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.Barracuda;
 using UnityEngine;
@@ -10,7 +10,7 @@ public class Model : MonoBehaviour
     public NNModel modelSource;
     private Unity.Barracuda.Model model;
     private IWorker worker;
-    WebCamTexture texture;
+    //WebCamTexture texture;
     private string[] names = {"1_1", "1_10", "1_11", "1_11_1", "1_12", "1_12_2", "1_13", "1_14", "1_15", "1_16", "1_17",
         "1_18", "1_19", "1_2", "1_20", "1_20_2", "1_20_3", "1_21", "1_22", "1_23", "1_25", "1_26", "1_27", "1_30", "1_31",
         "1_33", "1_5", "1_6", "1_7", "1_8", "2_1", "2_2", "2_3", "2_3_2", "2_3_3", "2_3_4", "2_3_5", "2_3_6", "2_4", "2_5",
@@ -31,9 +31,9 @@ public class Model : MonoBehaviour
     {
         model = ModelLoader.Load(modelSource);
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model);
-        texture = new WebCamTexture();
-        texture.Play();
-        InvokeRepeating("Predict", 0f, 1f);
+        StaticData.texture = new WebCamTexture();
+        StaticData.texture.Play();
+        InvokeRepeating("Predict", 0f, 2f);
     }
 
     private void Predict()
@@ -53,15 +53,18 @@ public class Model : MonoBehaviour
                 ind = k;
             }
         }
-        gameObject.GetComponent<Text>().text = DataBaseManager.GetSignName(names[ind]);
+        //if(max<0)
+        //    gameObject.GetComponent<Text>().text = "Не вижу знак";
+        //else
+            gameObject.GetComponent<Text>().text = DataBaseManager.GetSignName(names[ind]);
         inputTensor.Dispose();
         output.Dispose();
     }
 
     private Texture2D GetPhoto()
     {
-        Texture2D photo = new Texture2D(texture.width, texture.height);
-        photo.SetPixels(texture.GetPixels());
+        Texture2D photo = new Texture2D(StaticData.texture.width, StaticData.texture.height);
+        photo.SetPixels(StaticData.texture.GetPixels());
         //photo.Resize(720, 1080);
         photo.Apply();
         return photo;
